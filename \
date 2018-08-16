@@ -1,0 +1,55 @@
+from bs4 import BeautifulSoup as soup
+import requests
+import nltk
+import numpy as np
+import re
+from collections import Counter
+import matplotlib.pyplot as plt
+import pandas as pd
+from pandas import Series
+
+class Lyrics(object):
+	def grab_links(self, postfix):
+		main_page = "http://www.metrolyrics.com/drake-lyrics.html"
+		
+
+	def corpus_creation(self, url):
+		page = requests.get(url)
+		html = soup(page.content, "html.parser")
+		#lyrics = html.find_all(class_="lyricsh").get_text()
+		#print lyrics
+		lyrics = ''
+		for wrapper in html.find_all(class_="verse"):
+			lyrics += (wrapper.text)
+		return lyrics
+	
+	def word_freq(self, lyrics):	
+		tokens = nltk.word_tokenize(lyrics.encode('utf8'))
+		counts = Counter(tokens)
+		del counts[','] # remove non letters, has to be a better way 
+		del counts["'"]
+		del counts['[']
+		del counts[']']
+		del counts["n't"]
+		#s = Series(counts)
+		print counts
+		
+		keys = counts.keys()
+		y_pos = np.arange(len(keys))
+		# get the counts for each key, assuming the values are numerical
+		performance = [counts[k] for k in keys]
+		# not sure if you want this :S
+		error = np.random.rand(len(keys))
+
+		plt.barh(y_pos, performance, xerr=error, align='center', alpha=0.4)
+		plt.yticks(y_pos, keys)
+		plt.xlabel('Counts')
+		plt.title('GODS PLAN')
+
+		plt.show()
+		
+
+sol = Lyrics()
+url = "http://www.metrolyrics.com/gods-plan-lyrics-drake.html"
+print sol.corpus_creation(url)
+sol.word_freq(sol.corpus_creation(url))
