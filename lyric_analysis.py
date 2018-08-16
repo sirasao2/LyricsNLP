@@ -13,7 +13,7 @@ class Lyrics(object):
 	def grab_links(self, main_page):
 		"""
 		This function:
-			- scrapes titles of songs from the metrolyrics "Popular Songs" page using bs4 and saves to array: arr_post
+		- scrapes titles of songs from the metrolyrics "Popular Songs" page using bs4 and saves to array: arr_post
 	    	- the string contents of arr_post (which are song titles) are formatted to be lower case, punctuation free, and hyphenated
 	    	- the revised strings are then concatenated to a URL template which links users to each "Popular Songs" complete lyrics
 		:type main_page: string
@@ -33,10 +33,10 @@ class Lyrics(object):
 	def corpus_creation(self, final_links):
 		"""
 		This function:
-		    - reads/gets links and encodes to utf-8
-		    - complete lyrics of each individual title are then scraped and appended to a string: lyrics
-		    - all lyrics are then lower cased and stripped of punctuation in order to tidy data
-		    - lyrics are saved into text file clean and ready for data analysis
+		- reads/gets links and encodes to utf-8
+		- complete lyrics of each individual title are then scraped and appended to a string: lyrics
+		- all lyrics are then lower cased and stripped of punctuation in order to tidy data
+	        - lyrics are saved into text file clean and ready for data analysis
 		:type final_links: array
 		:rtype drake_lyics.txt: .txt file
 		"""
@@ -55,8 +55,8 @@ class Lyrics(object):
 	def word_freq(self, file_content):	
 		"""
 		This function:
-		    - uses the tidied data to output word frequency in decreasing order
-		    - plots can be used also to display data
+		- uses the tidied data to output word frequency in decreasing order
+		- plots can be used also to display data
 		:type file_content: .txt file
 		:rtype counts: .txt file
 		"""	
