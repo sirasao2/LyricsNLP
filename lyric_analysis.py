@@ -65,18 +65,22 @@ class Lyrics(object):
 		#s = Series(counts)
 		#print counts
 		
-		keys = counts.keys()
-		y_pos = np.arange(len(keys))
-		performance = [counts[k] for k in keys]
-		error = np.random.rand(len(keys))
+	def line_length(self):
+		fn = open("drake_lyrics.txt", "r")
+		lines = fn.readlines()
+		print "Average number of chars per line: ", sum([len(line.strip('\n')) for line in lines]) / len(lines)
 
-		'''
-		plt.barh(y_pos, performance, xerr=error, align='center', alpha=0.4)
-		plt.yticks(y_pos, keys)
-		plt.xlabel('Counts')
-		plt.title('Lyrics')
-		plt.show()
-		'''
+	def words_per_line(self):
+		"""
+		This function:
+		-returns the average number of words per line of a Drake Song
+		:rtype counts: int
+		"""
+		total_words = []
+		with open("drake_lyrics.txt", "r") as f:
+			for line in f.readlines():
+				total_words.append(len(line.split(' ')))
+		return "Average words per line: ", np.mean(total_words)
 
 sol = Lyrics()
 main_page = requests.get("http://www.metrolyrics.com/drake-lyrics.html")
@@ -84,3 +88,5 @@ file_content = open("drake_lyrics.txt").read()
 sol.grab_links(main_page)
 print sol.corpus_creation(sol.grab_links(main_page))
 sol.word_freq(file_content)
+#sol.line_length()
+print sol.words_per_line()
