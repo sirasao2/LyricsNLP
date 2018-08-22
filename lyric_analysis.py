@@ -66,6 +66,11 @@ class Lyrics(object):
 		#print counts
 		
 	def line_length(self):
+		"""	
+		This function:
+		-returns number of characters per line
+		rtype: str
+		"""
 		fn = open("drake_lyrics.txt", "r")
 		lines = fn.readlines()
 		print "Average number of chars per line: ", sum([len(line.strip('\n')) for line in lines]) / len(lines)
