@@ -28,7 +28,7 @@ class Lyrics(object):
 		
 		for i in arr_post:
 			final_links.append("http://www.metrolyrics.com/" + i + "-" + artist + ".html")
-		print len(final_links)
+		print(len(final_links))
 		return final_links
 		
 	def corpus_creation(self, final_links):
@@ -41,14 +41,18 @@ class Lyrics(object):
 		:type final_links: array
 		:rtype drake_lyics.txt: .txt file
 		"""
-		for link in final_links: 
-			page = requests.get(link)
+		arr = []
+		for link in range(0, len(final_links)): 
+			print(final_links[link])
+			page = requests.get(final_links[link])
 			page.encoding = 'utf-8'
 			html = soup(page.content, "html.parser")
-			lyrics = ''
 			for wrapper in html.find_all(class_="verse"):
-				lyrics += (wrapper.text).lower()
-			lyrics = re.sub(r'[^\w\s]','',lyrics)
+				print(wrapper.text)
+			# lyrics = ''
+			# for wrapper in html.find_all(class_="verse"):
+			# 	lyrics += (wrapper.text).lower()
+			# lyrics = re.sub(r'[^\w\s]','',lyrics)
 			#print lyrics
 			#with open("drake_lyrics.txt", "a") as the_file:
 			#	the_file.write(lyrics)
@@ -58,9 +62,10 @@ class Lyrics(object):
 
 sol = Lyrics()
 print("Please enter artist's first name.")
-artist = raw_input()
+artist = input()
 print("Please paste the URL of the artist whose song's you would like to scrape.")
 print("Example: http://www.metrolyrics.com/drake-lyrics.html")
-link = raw_input() #"http://www.metrolyrics.com/drake-lyrics.html"
+link = input() #"http://www.metrolyrics.com/drake-lyrics.html"
 main_page = requests.get(str(link))
-print sol.grab_links(main_page, artist.lower())
+(sol.grab_links(main_page, artist.lower()))
+sol.corpus_creation(sol.grab_links(main_page, artist))
