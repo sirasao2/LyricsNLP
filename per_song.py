@@ -28,8 +28,29 @@ class Lyrics(object):
 		
 		for i in arr_post:
 			final_links.append("http://www.metrolyrics.com/" + i + "-" + artist + ".html")
-		print len(final_links)
 		return final_links
+
+	def line_length(self, written):
+		"""	
+		This function:
+		-returns number of characters per line
+		rtype: str
+		"""
+		fn = open("lyrics.txt", "r")
+		lines = fn.readlines()
+		return "Average number of chars per line: ", sum([len(line.strip('\n')) for line in lines]) / len(lines)
+
+	def words_per_line(self, written):
+		"""
+		This function:
+		-returns the average number of words per line of a Drake Song
+		:rtype counts: int
+		"""
+		total_words = []
+		with open("lyrics.txt", "r") as f:
+			for line in f.readlines():
+				total_words.append(len(line.split(' ')))
+		return "Average words per line: ", np.mean(total_words)
 		
 	def corpus_creation(self, final_links):
 		"""
@@ -41,17 +62,18 @@ class Lyrics(object):
 		:type final_links: array
 		:rtype drake_lyics.txt: .txt file
 		"""
-		for link in final_links: 
-			page = requests.get(link)
+		for link in range(0, len(final_links)): 
+			page = requests.get(final_links[link])
 			page.encoding = 'utf-8'
 			html = soup(page.content, "html.parser")
 			lyrics = ''
 			for wrapper in html.find_all(class_="verse"):
-				lyrics += (wrapper.text).lower()
+				lyrics += ((wrapper.text).lower())
 			lyrics = re.sub(r'[^\w\s]','',lyrics)
-			#print lyrics
-			#with open("drake_lyrics.txt", "a") as the_file:
-			#	the_file.write(lyrics)
+		
+			with open("lyrics.txt", "a") as the_file:
+				written = the_file.write(lyrics)
+				print(final_links[link], sol.line_length(written), sol.words_per_line(written))
 
 # metrics: [44, 55, 66, 33, 45] <- song1.txt <- "gods plan gods plan"
 
@@ -63,4 +85,15 @@ print("Please paste the URL of the artist whose song's you would like to scrape.
 print("Example: http://www.metrolyrics.com/drake-lyrics.html")
 link = raw_input() #"http://www.metrolyrics.com/drake-lyrics.html"
 main_page = requests.get(str(link))
-print sol.grab_links(main_page, artist.lower())
+
+(sol.grab_links(main_page, artist.lower()))
+print("\n")
+print("\n")
+(sol.corpus_creation(sol.grab_links(main_page, artist)))
+
+
+
+
+##NOTES
+
+
